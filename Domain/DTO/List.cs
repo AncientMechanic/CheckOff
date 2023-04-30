@@ -10,12 +10,7 @@ namespace Domain.DTO
 {
     public class List : DataEntity
     {
-        /// <summary>
-        /// Id - идентификатор списка
-        /// </summary>
-        [Required]
-        [Column("id")]
-        public Guid Id { get; set; }
+
         /// <summary>
         /// Name - имя списка
         /// </summary>
@@ -61,12 +56,12 @@ namespace Domain.DTO
         /// <summary>
         /// UserId - идентификатор пользователя, к которому относится список
         /// </summary>
-        [Required]
-        [Column("userid")]
+        [ForeignKey("userid")]
         public Guid UserId { get; set; }
         /// <summary>
         /// Tasks - перечень заданий, входящих в данный список
         /// </summary>
         public List<Task>? Tasks { get; set; } = new List<Task> ();
+        public User User { get; set; }
     }
 }
