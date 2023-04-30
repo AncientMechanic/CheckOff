@@ -25,7 +25,12 @@ namespace Api.Extensions
 
         public static IServiceCollection AddDbContextConfiguration(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<ProjectContext>(options => options.UseInMemoryDatabase("Project"));
+            services.AddDbContext<ProjectContext>(options =>
+            {
+                var connectionString = config.GetConnectionString("MainDbContext");
+                options.UseNpgsql(connectionString);
+            });
+            //services.AddDbContext<ProjectContext>(options => options.UseInMemoryDatabase("Project"));
             return services;
         }
 

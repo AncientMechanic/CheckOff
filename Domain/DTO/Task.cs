@@ -12,12 +12,6 @@ namespace Domain.DTO
     {
 
         /// <summary>
-        /// Id - идентификатор задания
-        /// </summary>
-        [Required]
-        [Column("id")]
-        public Guid Id { get; set; }
-        /// <summary>
         /// Title - имя задания
         /// </summary>
         [Required]
@@ -62,8 +56,7 @@ namespace Domain.DTO
         /// <summary>
         /// ListId - идентификатор списка, к которому относится задание
         /// </summary>
-        [Required]
-        [Column("listId")]
+        [ForeignKey("listId")]
         public Guid ListId { get; set; }
     }
 }
