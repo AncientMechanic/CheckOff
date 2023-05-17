@@ -1,6 +1,8 @@
 ﻿using Domain.DTO;
 using Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Mvc;
+using Domain.Views.Users;
+using Domain.Extensions;
 
 namespace Api.Controllers
 {
@@ -22,12 +24,13 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> GetById(Guid id)
+        public async Task<ActionResult<UserView>> GetById(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);
-
-            return Ok(entity);
+            var view = entity.ConvertToView();
+            return Ok(view);
         }
+
 
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -36,30 +39,43 @@ namespace Api.Controllers
         {
             var entities = await _repository.GetAllAsync();
 
-            return Ok(entities);
+            List<UserView> views = new List<UserView>();
+            foreach (var entity in entities)
+            {
+                views.Add(new UserView()
+                {
+                    Id = entity.Id,
+                    Email = entity.Email,
+                    CreatedOn = entity.CreatedOn,
+                    ModifiedOn = entity.ModifiedOn
+                });
+            }
+            return Ok(views);
         }
 
         [HttpPost()]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Guid>> Create(User model)
+        public async Task<ActionResult<Guid>> Create(CreateUserView view)
         {
+            var model = view.ConvertToEntity();
             var id = await _repository.CreateAsync(model);
-
             return new ObjectResult(id) { StatusCode = StatusCodes.Status201Created };
         }
 
-        [HttpPut()]
+
+            [HttpPut()]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Update(User model)
+        public async Task<ActionResult> Update(UpdateUserView view)
         {
+            var model = view.ConvertToEntity();
             await _repository.UpdateAsync(model);
-
             return NoContent();
+
         }
 
         [HttpDelete("{id}")]
