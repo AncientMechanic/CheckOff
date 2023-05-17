@@ -1,6 +1,8 @@
 ﻿using Domain.DTO;
 using Infrastructure.IRepositories;
 using Microsoft.AspNetCore.Mvc;
+using Domain.Views.Lists;
+using Domain.Extensions;
 
 namespace Api.Controllers
 {
@@ -22,11 +24,12 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List>> GetById(Guid id)
+        public async Task<ActionResult<ListView>> GetById(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);
 
-            return Ok(entity);
+            var view = entity.ConvertToView();
+            return Ok(view);
         }
 
         [HttpGet()]
@@ -36,15 +39,26 @@ namespace Api.Controllers
         {
             var entities = await _repository.GetAllAsync();
 
-            return Ok(entities);
+            List<ListView> views = new List<ListView>();
+            foreach (var entity in entities)
+            {
+                views.Add(new ListView()
+                {
+                    Id = entity.Id,
+                    UserId = entity.UserId,
+                    Name = entity.Name,
+                });
+            }
+            return Ok(views);
         }
 
         [HttpPost()]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Guid>> Create(List model)
+        public async Task<ActionResult<Guid>> Create(CreateListView view)
         {
+            var model = view.ConvertToEntity();
             var id = await _repository.CreateAsync(model);
 
             return new ObjectResult(id) { StatusCode = StatusCodes.Status201Created };
@@ -55,8 +69,9 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Update(List model)
+        public async Task<ActionResult> Update(UpdateListView view)
         {
+            var model = view.ConvertToEntity();
             await _repository.UpdateAsync(model);
 
             return NoContent();
