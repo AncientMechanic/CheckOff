@@ -9,7 +9,6 @@ namespace Domain.Views.Tasks
     public class CreateTaskView
     {
         public Guid ListId { get; set; }
-
-        public string Title { get; set; }
+        public string Title { get; set; } 
     }
 }

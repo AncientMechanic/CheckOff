@@ -10,6 +10,7 @@ namespace Domain.Extensions
             {
                 Id = entity.Id,
                 ListId = entity.ListId,
+                Title = entity.Title
             };
         }
         public static DTO.Task ConvertToEntity (this CreateTaskView view)

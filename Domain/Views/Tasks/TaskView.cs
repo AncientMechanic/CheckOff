@@ -10,6 +10,6 @@ namespace Domain.Views.Tasks
     {
         public Guid Id { get; set; }
         public Guid ListId { get; set; }
-        public string Name { get; set; } = null!;
+        public string Title { get; set; } = null!;
     }
 }

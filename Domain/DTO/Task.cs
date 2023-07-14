@@ -16,41 +16,40 @@ namespace Domain.DTO
         /// </summary>
         [Required]
         [Column("title")]
-        public string? Title { get; set; }
+        public string? Title { get; set; } = "";
         /// <summary>
         /// Description - описание задания - то, что будет указано пользователю в списке
         /// </summary>
-        [Required]
+
         [Column("description")]
-        public string? Description { get; set; }
+        public string Description { get; set; } = "";
         /// <summary>
         /// Active - статус активности задания
         /// </summary>
-        [Required]
+
         [Column("active")]
         public bool Active { get; set; }
         /// <summary>
         /// Cancel - статус отмены задания
         /// </summary>
-        [Required]
+        
         [Column("cancel")]
         public bool Cancel { get; set; }
         /// <summary>
         /// Complete - статус выполнения задания
-        /// </summary>
-        [Required]
+        /// </summar[Required]
         [Column("complete")]
         public bool Complete { get; set; }
         /// <summary>
         /// SubTasks - кол-во подзаданий
         /// </summary>
-        [Required]
+        
         [Column("subTasks")]
         public int SubTasks { get; set; }
         /// <summary>
         /// Place - номер задания в очереди на выполнение в списке
         /// </summary>
-        [Required]
+        
         [Column("place")]
         public int Place { get; set; }
         /// <summary>

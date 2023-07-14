@@ -13,7 +13,7 @@ namespace EF
         public ProjectContext(DbContextOptions options)
             : base(options)
         {
-            // Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

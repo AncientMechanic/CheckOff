@@ -26,31 +26,31 @@ namespace Domain.DTO
         /// <summary>
         /// AmountOfTasks - кол-во заданий
         /// </summary>
-        [Required]
+        
         [Column("amountoftasks")]
         public int AmountOfTasks { get; set; }
         /// <summary>
         /// CompletedTasks - кол-во завершенных заданий
         /// </summary>
-        [Required]
+      
         [Column("completedtasks")]
         public int CompletedTasks { get; set; }
         /// <summary>
         /// Complete - cтатус завершения списка
         /// </summary>
-        [Required]
+      
         [Column("complete")]
         public bool Complete { get; set; }
         /// <summary>
         /// Date - дата/даты, к которой приурочен список
         /// </summary>
-        [Required]
+    
         [Column("date")]
         public DateTime Date { get; set; }
         /// <summary>
         /// Id - идентификатор списка
         /// </summary>
-        [Required]
+      
         [Column("category")]
         public string Category { get; set; } = "";
         /// <summary>
